@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神戸クルーザーDXプロジェクト 構想・進行状況まとめ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* カラーパレット */
+        .bg-navy { background-color: #002147; }
+        .text-navy { color: #002147; }
+        .border-navy { border-color: #002147; }
+        
+        .bg-gold { background-color: #C5A059; }
+        .text-gold { color: #C5A059; }
+        .border-gold { border-color: #C5A059; }
+        
+        .bg-ocean { background-color: #0EA5E9; }
+        .text-ocean { color: #0EA5E9; }
+
+        /* グラデーション・装飾 */
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0,33,71,0.95) 0%, rgba(0,33,71,0.85) 60%, rgba(14,165,233,0.8) 100%),
+                        url('https://images.unsplash.com/photo-1505236858219-8359eb29e329?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 33, 71, 0.1), 0 2px 4px -1px rgba(0, 33, 71, 0.06);
+        }
+
+        /* タイムラインのスタイル */
+        .timeline-container {
+            overflow-x: auto;
+            padding-bottom: 2rem;
+        }
+        
+        /* Mermaid */
+        .mermaid {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            overflow: visible;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 1. Hero Section -->
+    <header class="hero-gradient text-white relative overflow-hidden">
+        <div class="container mx-auto px-6 py-20 relative z-10">
+            <div class="mb-4 inline-block px-3 py-1 border border-gold text-gold rounded-full text-xs font-bold tracking-widest uppercase">
+                Project Status Report
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black mb-4 leading-tight">
+                神戸クルーザーDXプロジェクト<br>構想・進行状況まとめ
+            </h1>
+            <p class="text-xl md:text-2xl font-light text-gray-200 mb-12">
+                4月のドック入りに向けたタスク管理と全体像
+            </p>
+
+            <!-- Vision Card -->
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-xl max-w-5xl shadow-xl">
+                <div class="flex flex-col md:flex-row items-start gap-6">
+                    <div class="md:w-1/3">
+                        <div class="text-gold font-bold mb-2 uppercase tracking-wide text-sm">Vision</div>
+                        <h2 class="text-2xl font-bold leading-snug">
+                            航空会社のような<br>スマートな搭乗体験の実現
+                        </h2>
+                    </div>
+                    <div class="md:w-2/3 border-t md:border-t-0 md:border-l border-white/30 pt-4 md:pt-0 md:pl-6">
+                        <div class="text-gold font-bold mb-2 uppercase tracking-wide text-sm">Objectives</div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 mr-2 text-ocean flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span><strong>完全キャッシュレス・事前決済化</strong>による当日オペレーションの簡素化</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 mr-2 text-ocean flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>情報のリアルタイム同期（陸上チェックイン⇔船上オーダリング）による<strong>顧客満足度と安全性の向上</strong></span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 mr-2 text-ocean flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>安定した<strong>船内通信環境</strong>の構築</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. System Architecture (TO-BE Model) -->
+    <section class="py-16 container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-navy mb-8 flex items-center">
+            <svg class="w-8 h-8 mr-3 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+            システム構成（TO-BEモデル）
+        </h2>
+        
+        <div class="bg-white p-6 rounded-xl card-shadow overflow-x-auto border-t-4 border-navy mb-8">
+            <!-- Mermaid Diagram -->
+            <div class="min-w-[800px] flex justify-center mb-8">
+                <!-- Changed: Removed init directive and updated subgraph syntax for better compatibility -->
+                <div class="mermaid" style="font-family: 'Noto Sans JP', sans-serif; width: 100%;">
+graph LR
+    subgraph S1["陸上エリア"]
+        TC["スマホ：TableCheck (予約・事前決済)"]
+        GS[("API連携：Google Sheets (チェックイン管理)")]
+        TAB["タブレット×3台：港カウンター (セルフ受付・印字)"]
+    end
+
+    subgraph S2["境界・ボーディング"]
+        BOARD["スマホ・AppSheet：乗船口 (QRスキャン・乗船処理)"]
+    end
+
+    subgraph S3["船内エリア"]
+        POS["POSレジ：Oracle MICROS (オーダー・調理指示)"]
+        HANDY["ハンディ端末 (テーブル決済)"]
+    end
+
+    subgraph S4["通信基盤"]
+        STAR(("衛星：Starlink (Mobile Priority)"))
+    end
+
+    %% データフロー
+    TC ==> GS
+    GS <==> TAB
+    TAB -.->|"QR印字"| BOARD
+    BOARD ==>|"ステータス更新"| GS
+    GS ==> POS
+    POS <--> HANDY
+    
+    %% インフラ依存関係
+    STAR -.- BOARD
+    STAR -.- POS
+    
+    %% スタイル
+    classDef navy fill:#002147,stroke:#002147,color:#fff,rx:5px,ry:5px;
+    classDef gold fill:#fff,stroke:#C5A059,stroke-width:2px,color:#002147,rx:5px,ry:5px;
+    classDef ocean fill:#0EA5E9,stroke:#0EA5E9,color:#fff,rx:5px,ry:5px;
+    classDef infra fill:#f3f4f6,stroke:#9ca3af,stroke-width:1px,stroke-dasharray: 5 5,color:#374151;
+
+    class TC,POS navy;
+    class GS,TAB,BOARD,HANDY gold;
+    class STAR infra;
+                </div>
+            </div>
+            
+            <!-- System Details Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 text-sm">
+                <!-- 予約・決済 -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-navy mb-2 flex items-center">
+                        <span class="w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-xs mr-2">1</span>
+                        予約・決済
+                    </h4>
+                    <p class="text-xs font-bold text-gray-500 mb-1">TableCheck (tc)</p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
+                        <li>全予約（団体・個人・当日）を一元管理</li>
+                        <li>原則100%事前決済</li>
+                        <li>「座席在庫グループ」による自動価格設定</li>
+                    </ul>
+                </div>
+
+                <!-- チェックイン -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-navy mb-2 flex items-center">
+                        <span class="w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-xs mr-2">2</span>
+                        チェックイン
+                    </h4>
+                    <p class="text-xs font-bold text-gray-500 mb-1">カウンター (Tab×3)</p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
+                        <li>お客様による電話番号入力（セルフ受付）</li>
+                        <li>API連携でSheetsを即時更新</li>
+                        <li>レシートプリンターでQR・座席印字</li>
+                    </ul>
+                </div>
+
+                <!-- ボーディング -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-navy mb-2 flex items-center">
+                        <span class="w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-xs mr-2">3</span>
+                        ボーディング
+                    </h4>
+                    <p class="text-xs font-bold text-gray-500 mb-1">乗船口 (AppSheet)</p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
+                        <li>QRスキャンでステータスを「Boarded」へ</li>
+                        <li><strong>「未乗船人数」</strong>をリアルタイム把握</li>
+                    </ul>
+                </div>
+
+                <!-- 船内サービス -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h4 class="font-bold text-navy mb-2 flex items-center">
+                        <span class="w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-xs mr-2">4</span>
+                        船内サービス
+                    </h4>
+                    <p class="text-xs font-bold text-gray-500 mb-1">MICROS POS</p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
+                        <li>着席と同時にアレルギー・コース情報を表示</li>
+                        <li>追加注文はテーブルでキャッシュレス決済</li>
+                    </ul>
+                </div>
+
+                <!-- インフラ -->
+                <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                    <h4 class="font-bold text-gray-700 mb-2 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        インフラ
+                    </h4>
+                    <p class="text-xs font-bold text-gray-500 mb-1">Starlink</p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
+                        <li>Mobile Priorityプランで8ノットの通信制限解除</li>
+                        <li>業務/客用Wi-Fiの帯域分離(VLAN)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Project Status Dashboard -->
+    <section class="py-16 bg-white border-y border-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-navy mb-8 flex items-center">
+                <svg class="w-8 h-8 mr-3 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                現在のステータスと課題
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Column 1: Decided -->
+                <div class="bg-blue-50 rounded-xl p-6 border-t-4 border-blue-600 card-shadow h-full">
+                    <h3 class="flex items-center text-xl font-bold text-navy mb-6">
+                        <span class="bg-blue-600 text-white rounded-full p-1 mr-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </span>
+                        確定事項 (Decided)
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-blue-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">基幹システム</span>
+                            <span class="font-bold text-gray-800">予約: TableCheck / POS: Oracle MICROS（両者連携）</span>
+                        </li>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-blue-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">データ連携</span>
+                            <span class="font-bold text-gray-800">Google Sheetsを中間DBとして活用</span>
+                        </li>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-blue-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">通信方針</span>
+                            <span class="font-bold text-gray-800">Starlink Mobile Priorityへの変更（航行中接続維持）</span>
+                        </li>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-blue-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">ドック工事 (4月)</span>
+                            <span class="font-bold text-gray-800">アンテナ載せ替え・船内LAN配線工事</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 2: Risks -->
+                <div class="bg-yellow-50 rounded-xl p-6 border-t-4 border-yellow-500 card-shadow h-full">
+                    <h3 class="flex items-center text-xl font-bold text-navy mb-6">
+                        <span class="bg-yellow-500 text-white rounded-full p-1 mr-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </span>
+                        懸念・リスク (Concerns)
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">コスト・仕様</span>
+                            <span class="font-bold text-gray-800">連携費用・Webhook発火タイミング</span>
+                        </li>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">通信瞬断</span>
+                            <span class="font-bold text-gray-800">オフライン時の業務継続検証</span>
+                        </li>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">耐久性・運用</span>
+                            <span class="font-bold text-gray-800">塩害対策・高齢乗客へのサポート</span>
+                        </li>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">アレルギー対応</span>
+                            <span class="font-bold text-gray-800">システム表示と「人による確認」のフロー確立</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Undecided -->
+                <div class="bg-gray-100 rounded-xl p-6 border-t-4 border-gray-500 card-shadow h-full">
+                    <h3 class="flex items-center text-xl font-bold text-navy mb-6">
+                        <span class="bg-gray-500 text-white rounded-full p-1 mr-3">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </span>
+                        未決定・検討中 (Undecided)
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-gray-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">詳細UI設計</span>
+                            <span class="font-bold text-gray-800">クルー用管理画面（AppSheet等）のUI</span>
+                        </li>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-gray-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">ハードウェア選定</span>
+                            <span class="font-bold text-gray-800">レシートプリンター機種、決済端末、NW機器</span>
+                        </li>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-gray-400">
+                            <span class="text-xs font-bold text-gray-400 block mb-1">座席マッピング</span>
+                            <span class="font-bold text-gray-800">実際の配置とシステムIDの紐づけ定義</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Roadmap (Action Plan) -->
+    <section class="py-16 container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-navy mb-12 flex items-center">
+            <svg class="w-8 h-8 mr-3 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+            今後のToDo (Action Plan)
+        </h2>
+
+        <div class="relative timeline-container">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                
+                <!-- Phase 1 -->
+                <div class="flex flex-col">
+                    <div class="bg-white p-6 rounded-xl card-shadow border-t-8 border-navy h-full">
+                        <h3 class="text-lg font-bold text-navy mb-2">Phase 1: 即時〜ドック前</h3>
+                        <p class="text-sm font-bold text-gold uppercase tracking-wide mb-4">NOW - MARCH</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">見積・契約</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span class="font-bold">Starlinkプラン変更（Roam→Mobile Priority）</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>Flat High Performance Kit 購入・納期確認</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>ベンダーAPI連携の費用・納期問合せ</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">設計・検証</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>ドック配線ルート（キッチン・天井裏）図面作成</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>GASプロトタイプ実装（Webhook受信テスト）</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 (Highlight) -->
+                <div class="flex flex-col transform md:-translate-y-4">
+                    <div class="bg-navy text-white p-8 rounded-xl shadow-2xl border-t-8 border-gold h-full relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-bl">CONSTRUCTION</div>
+                        <h3 class="text-xl font-bold mb-2">Phase 2: ドック期間中</h3>
+                        <p class="text-sm font-bold text-gold uppercase tracking-wide mb-6">APRIL</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">物理工事</h4>
+                            <ul class="space-y-3 text-sm font-medium">
+                                <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>Starlink高性能アンテナ 溶接固定・入線</li>
+                                <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>船内LAN配線敷設（各エリアへの有線敷設）</li>
+                                <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>ネットワーク機器用電源確保</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="flex flex-col">
+                    <div class="bg-white p-6 rounded-xl card-shadow border-t-8 border-ocean h-full">
+                        <h3 class="text-lg font-bold text-navy mb-2">Phase 3: ドック明け〜運用</h3>
+                        <p class="text-sm font-bold text-gold uppercase tracking-wide mb-4">MAY - ONWARDS</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">実装・導入</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>機器設置（AP・プリンター・タブレット）</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>AppSheet/Sheets 管理画面構築</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>全体通し連携テスト（予約〜オーダリング）</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>スタッフトレーニング・マニュアル作成</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Footer -->
+    <footer class="bg-navy text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-2xl font-bold mb-6">Transform the Voyage.</h3>
+            <p class="text-lg font-light mb-8 max-w-3xl mx-auto leading-relaxed">
+                本プロジェクトは単なるシステム導入ではなく、<strong class="text-gold">「船内業務のあり方を根本から変える」</strong>施策です。<br>
+                4月のドック工事はインフラ構築の最重要タイミングとなるため、そこまでにハードウェアの手配と配線計画を完了させる必要があります。
+            </p>
+            <div class="border-t border-white/20 pt-8 mt-8">
+                <p class="text-sm text-gray-400">© 神戸クルーザーDXプロジェクトチーム</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mermaid initialization -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>
