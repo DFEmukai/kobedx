@@ -62,7 +62,7 @@
                 神戸クルーザーDXプロジェクト<br>構想・進行状況まとめ
             </h1>
             <p class="text-xl md:text-2xl font-light text-gray-200 mb-12">
-                4月のドック入りに向けたタスク管理と全体像
+                スマートな搭乗体験と安全運航の実現へ
             </p>
 
             <!-- Vision Card -->
@@ -106,7 +106,6 @@
         <div class="bg-white p-6 rounded-xl card-shadow overflow-x-auto border-t-4 border-navy mb-8">
             <!-- Mermaid Diagram -->
             <div class="min-w-[800px] flex justify-center mb-8">
-                <!-- Changed: Removed init directive and updated subgraph syntax for better compatibility -->
                 <div class="mermaid" style="font-family: 'Noto Sans JP', sans-serif; width: 100%;">
 graph LR
     subgraph S1["陸上エリア"]
@@ -268,12 +267,12 @@ graph LR
                         <span class="bg-yellow-500 text-white rounded-full p-1 mr-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         </span>
-                        懸念・リスク (Concerns)
+                        懸念・リスク (Risks)
                     </h3>
                     <ul class="space-y-3">
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
                             <span class="text-xs font-bold text-gray-400 block mb-1">コスト・仕様</span>
-                            <span class="font-bold text-gray-800">連携費用・Webhook発火タイミング</span>
+                            <span class="font-bold text-gray-800">API連携費用・仕様確認</span>
                         </li>
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
                             <span class="text-xs font-bold text-gray-400 block mb-1">通信瞬断</span>
@@ -281,11 +280,7 @@ graph LR
                         </li>
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
                             <span class="text-xs font-bold text-gray-400 block mb-1">耐久性・運用</span>
-                            <span class="font-bold text-gray-800">塩害対策・高齢乗客へのサポート</span>
-                        </li>
-                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">アレルギー対応</span>
-                            <span class="font-bold text-gray-800">システム表示と「人による確認」のフロー確立</span>
+                            <span class="font-bold text-gray-800">塩害対策・現場オペレーション習熟</span>
                         </li>
                     </ul>
                 </div>
@@ -328,31 +323,35 @@ graph LR
         <div class="relative timeline-container">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
                 
-                <!-- Phase 1 -->
+                <!-- Phase 1: 設計・手配 -->
                 <div class="flex flex-col">
                     <div class="bg-white p-6 rounded-xl card-shadow border-t-8 border-navy h-full">
                         <h3 class="text-lg font-bold text-navy mb-2">Phase 1: 即時〜ドック前</h3>
                         <p class="text-sm font-bold text-gold uppercase tracking-wide mb-4">NOW - MARCH</p>
                         
                         <div class="mb-4">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">見積・契約</h4>
+                            <!-- High Priority Task -->
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-500 mb-4 shadow-sm">
+                                <h4 class="text-xs font-bold text-red-600 uppercase mb-1">【最重要】設計・手配</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <input type="checkbox" class="mt-1 mr-2 accent-red-600">
+                                        <span class="font-bold text-red-700">インフラ設計の外部委託：<br>専門の弱電業者へ配線図設計を依頼<br><span class="text-xs font-normal text-red-600">(素人判断厳禁)</span></span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">その他の手配</h4>
                             <ul class="space-y-2 text-sm">
                                 <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span class="font-bold">Starlinkプラン変更（Roam→Mobile Priority）</span></li>
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>Flat High Performance Kit 購入・納期確認</span></li>
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>ベンダーAPI連携の費用・納期問合せ</span></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">設計・検証</h4>
-                            <ul class="space-y-2 text-sm">
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>ドック配線ルート（キッチン・天井裏）図面作成</span></li>
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>GASプロトタイプ実装（Webhook受信テスト）</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>ベンダーAPI連携の費用・仕様問合せ</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>GASプロトタイプ実装・検証</span></li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Phase 2 (Highlight) -->
+                <!-- Phase 2: 物理工事 -->
                 <div class="flex flex-col transform md:-translate-y-4">
                     <div class="bg-navy text-white p-8 rounded-xl shadow-2xl border-t-8 border-gold h-full relative overflow-hidden">
                         <div class="absolute top-0 right-0 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-bl">CONSTRUCTION</div>
@@ -360,29 +359,37 @@ graph LR
                         <p class="text-sm font-bold text-gold uppercase tracking-wide mb-6">APRIL</p>
                         
                         <div class="mb-4">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">物理工事</h4>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">物理工事 (Professional)</h4>
                             <ul class="space-y-3 text-sm font-medium">
-                                <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>Starlink高性能アンテナ 溶接固定・入線</li>
-                                <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>船内LAN配線敷設（各エリアへの有線敷設）</li>
-                                <li class="flex items-center"><svg class="w-5 h-5 mr-2 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>ネットワーク機器用電源確保</li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                    <span><strong>プロによる施工：</strong><br>弱電業者の指示に基づく配線敷設・Starlinkアンテナ溶接設置</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    <span>船内LAN配線敷設<br>(キッチン・天井裏・デッキ)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    <span>ネットワーク機器用電源工事</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Phase 3 -->
+                <!-- Phase 3: 実装・テスト -->
                 <div class="flex flex-col">
                     <div class="bg-white p-6 rounded-xl card-shadow border-t-8 border-ocean h-full">
                         <h3 class="text-lg font-bold text-navy mb-2">Phase 3: ドック明け〜運用</h3>
                         <p class="text-sm font-bold text-gold uppercase tracking-wide mb-4">MAY - ONWARDS</p>
                         
                         <div class="mb-4">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">実装・導入</h4>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">実装・テスト</h4>
                             <ul class="space-y-2 text-sm">
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>機器設置（AP・プリンター・タブレット）</span></li>
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>AppSheet/Sheets 管理画面構築</span></li>
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>全体通し連携テスト（予約〜オーダリング）</span></li>
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>スタッフトレーニング・マニュアル作成</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>機器設置・設定（AP・タブレット）</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>ソフト実装・連携テスト</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>スタッフトレーニング</span></li>
                             </ul>
                         </div>
                     </div>
@@ -397,8 +404,7 @@ graph LR
         <div class="container mx-auto px-6 text-center">
             <h3 class="text-2xl font-bold mb-6">Transform the Voyage.</h3>
             <p class="text-lg font-light mb-8 max-w-3xl mx-auto leading-relaxed">
-                本プロジェクトは単なるシステム導入ではなく、<strong class="text-gold">「船内業務のあり方を根本から変える」</strong>施策です。<br>
-                4月のドック工事はインフラ構築の最重要タイミングとなるため、そこまでにハードウェアの手配と配線計画を完了させる必要があります。
+                4月のドック工事が勝負です。特に<strong class="text-gold">「弱電業者による正確な図面」</strong>なしに工事に入ると取り返しがつきません。<br>早急な手配をお願いします。
             </p>
             <div class="border-t border-white/20 pt-8 mt-8">
                 <p class="text-sm text-gray-400">© 神戸クルーザーDXプロジェクトチーム</p>
