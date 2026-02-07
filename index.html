@@ -56,13 +56,13 @@
     <header class="hero-gradient text-white relative overflow-hidden">
         <div class="container mx-auto px-6 py-20 relative z-10">
             <div class="mb-4 inline-block px-3 py-1 border border-gold text-gold rounded-full text-xs font-bold tracking-widest uppercase">
-                Project Status Report
+                Project Status Report: 2026.02.07 Update
             </div>
             <h1 class="text-4xl md:text-5xl font-black mb-4 leading-tight">
                 神戸クルーザーDXプロジェクト<br>構想・進行状況まとめ
             </h1>
             <p class="text-xl md:text-2xl font-light text-gray-200 mb-12">
-                スマートな搭乗体験と安全運航の実現へ
+                キッチンKDS導入・AppSheet開発へフェーズ移行中
             </p>
 
             <!-- Vision Card -->
@@ -75,19 +75,19 @@
                         </h2>
                     </div>
                     <div class="md:w-2/3 border-t md:border-t-0 md:border-l border-white/30 pt-4 md:pt-0 md:pl-6">
-                        <div class="text-gold font-bold mb-2 uppercase tracking-wide text-sm">Objectives</div>
+                        <div class="text-gold font-bold mb-2 uppercase tracking-wide text-sm">New Updates</div>
                         <ul class="space-y-3">
                             <li class="flex items-start">
-                                <svg class="w-6 h-6 mr-2 text-ocean flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span><strong>完全キャッシュレス・事前決済化</strong>による当日オペレーションの簡素化</span>
+                                <span class="bg-ocean text-white text-xs px-2 py-0.5 rounded mr-2 mt-1">DECIDED</span>
+                                <span><strong>Google AppSheet導入決定：</strong>乗船リスト・ボーディング管理・クルー連絡をアプリ化</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="w-6 h-6 mr-2 text-ocean flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>情報のリアルタイム同期（陸上チェックイン⇔船上オーダリング）による<strong>顧客満足度と安全性の向上</strong></span>
+                                <span class="bg-ocean text-white text-xs px-2 py-0.5 rounded mr-2 mt-1">DECIDED</span>
+                                <span><strong>Oracleハードウェア構成案：</strong>Workstation 655X, 722P Tablet, KDS Express Station</span>
                             </li>
                             <li class="flex items-start">
-                                <svg class="w-6 h-6 mr-2 text-ocean flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span>安定した<strong>船内通信環境</strong>の構築</span>
+                                <span class="bg-red-500 text-white text-xs px-2 py-0.5 rounded mr-2 mt-1">ACTION</span>
+                                <span><strong>2/9 キッチンMTG：</strong>KDS設置場所・枚数・プリンター要否の決定</span>
                             </li>
                         </ul>
                     </div>
@@ -105,22 +105,23 @@
         
         <div class="bg-white p-6 rounded-xl card-shadow overflow-x-auto border-t-4 border-navy mb-8">
             <!-- Mermaid Diagram -->
-            <div class="min-w-[800px] flex justify-center mb-8">
+            <div class="min-w-[900px] flex justify-center mb-8">
                 <div class="mermaid" style="font-family: 'Noto Sans JP', sans-serif; width: 100%;">
 graph LR
     subgraph S1["陸上エリア"]
-        TC["スマホ：TableCheck (予約・事前決済)"]
-        GS[("API連携：Google Sheets (チェックイン管理)")]
-        TAB["タブレット×3台：港カウンター (セルフ受付・印字)"]
+        TC["スマホ：TableCheck (予約・事前決済)<br/>※座席指定ロジック決定"]
+        APP[("Google AppSheet<br/>(乗船名簿・スタッフ連絡)")]
+        TAB["タブレット×3台：港カウンター (セルフ受付)"]
     end
 
     subgraph S2["境界・ボーディング"]
-        BOARD["スマホ・AppSheet：乗船口 (QRスキャン・乗船処理)"]
+        BOARD["スマホ・AppSheet：乗船口 (QRスキャン・乗船確認)"]
     end
 
     subgraph S3["船内エリア"]
-        POS["POSレジ：Oracle MICROS (オーダー・調理指示)"]
-        HANDY["ハンディ端末 (テーブル決済)"]
+        POS["Oracle Workstation 655X (サーバー兼レジ)"]
+        TAB_O["Micros 722P Tablet (オーダー・決済)"]
+        KDS["KDS Express Station (キッチンディスプレイ)"]
     end
 
     subgraph S4["通信基盤"]
@@ -128,12 +129,13 @@ graph LR
     end
 
     %% データフロー
-    TC ==> GS
-    GS <==> TAB
+    TC ==>|"連携I/F開発? (要確認)"| POS
+    TC -.->|"CSV/API"| APP
+    APP <==> TAB
     TAB -.->|"QR印字"| BOARD
-    BOARD ==>|"ステータス更新"| GS
-    GS ==> POS
-    POS <--> HANDY
+    BOARD ==>|"ステータス更新"| APP
+    POS ==> KDS
+    POS <--> TAB_O
     
     %% インフラ依存関係
     STAR -.- BOARD
@@ -145,78 +147,47 @@ graph LR
     classDef ocean fill:#0EA5E9,stroke:#0EA5E9,color:#fff,rx:5px,ry:5px;
     classDef infra fill:#f3f4f6,stroke:#9ca3af,stroke-width:1px,stroke-dasharray: 5 5,color:#374151;
 
-    class TC,POS navy;
-    class GS,TAB,BOARD,HANDY gold;
+    class TC,POS,KDS navy;
+    class APP,TAB,BOARD,TAB_O gold;
     class STAR infra;
                 </div>
             </div>
             
             <!-- System Details Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 text-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
                 <!-- 予約・決済 -->
                 <div class="bg-blue-50 p-4 rounded-lg">
-                    <h4 class="font-bold text-navy mb-2 flex items-center">
-                        <span class="w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-xs mr-2">1</span>
-                        予約・決済
-                    </h4>
-                    <p class="text-xs font-bold text-gray-500 mb-1">TableCheck (tc)</p>
+                    <h4 class="font-bold text-navy mb-2">1. 予約 (TableCheck)</h4>
                     <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
-                        <li>全予約（団体・個人・当日）を一元管理</li>
-                        <li>原則100%事前決済</li>
-                        <li>「座席在庫グループ」による自動価格設定</li>
+                        <li>座席指定（窓側等）はユーザー選択で対応</li>
+                        <li><strong>課題：</strong>MICROS連携にI/F追加開発が必要か要検証</li>
                     </ul>
                 </div>
 
-                <!-- チェックイン -->
+                <!-- 自社開発DX -->
                 <div class="bg-blue-50 p-4 rounded-lg">
-                    <h4 class="font-bold text-navy mb-2 flex items-center">
-                        <span class="w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-xs mr-2">2</span>
-                        チェックイン
-                    </h4>
-                    <p class="text-xs font-bold text-gray-500 mb-1">カウンター (Tab×3)</p>
+                    <h4 class="font-bold text-navy mb-2">2. チェックイン (AppSheet)</h4>
                     <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
-                        <li>お客様による電話番号入力（セルフ受付）</li>
-                        <li>API連携でSheetsを即時更新</li>
-                        <li>レシートプリンターでQR・座席印字</li>
-                    </ul>
-                </div>
-
-                <!-- ボーディング -->
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <h4 class="font-bold text-navy mb-2 flex items-center">
-                        <span class="w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-xs mr-2">3</span>
-                        ボーディング
-                    </h4>
-                    <p class="text-xs font-bold text-gray-500 mb-1">乗船口 (AppSheet)</p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
-                        <li>QRスキャンでステータスを「Boarded」へ</li>
-                        <li><strong>「未乗船人数」</strong>をリアルタイム把握</li>
+                        <li>Google AppSheet採用決定</li>
+                        <li>乗船リスト・ボーディング状況・クルー連絡ノート機能</li>
                     </ul>
                 </div>
 
                 <!-- 船内サービス -->
                 <div class="bg-blue-50 p-4 rounded-lg">
-                    <h4 class="font-bold text-navy mb-2 flex items-center">
-                        <span class="w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-xs mr-2">4</span>
-                        船内サービス
-                    </h4>
-                    <p class="text-xs font-bold text-gray-500 mb-1">MICROS POS</p>
+                    <h4 class="font-bold text-navy mb-2">3. 船内 (Oracle MICROS)</h4>
                     <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
-                        <li>着席と同時にアレルギー・コース情報を表示</li>
-                        <li>追加注文はテーブルでキャッシュレス決済</li>
+                        <li>HW: Workstation 655X / Tablet 722P / KDS</li>
+                        <li>オフライン動作：船内LANあればCAPSで稼働継続</li>
                     </ul>
                 </div>
 
                 <!-- インフラ -->
                 <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
-                    <h4 class="font-bold text-gray-700 mb-2 flex items-center">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        インフラ
-                    </h4>
-                    <p class="text-xs font-bold text-gray-500 mb-1">Starlink</p>
+                    <h4 class="font-bold text-gray-700 mb-2">4. インフラ (Starlink)</h4>
                     <ul class="list-disc list-inside space-y-1 text-gray-700 text-xs">
-                        <li>Mobile Priorityプランで8ノットの通信制限解除</li>
-                        <li>業務/客用Wi-Fiの帯域分離(VLAN)</li>
+                        <li>Mobile Priorityプランで常時接続</li>
+                        <li><strong>2/9</strong> KDS設置場所のLAN配線ルート確認</li>
                     </ul>
                 </div>
             </div>
@@ -243,20 +214,16 @@ graph LR
                     </h3>
                     <ul class="space-y-3">
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-blue-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">基幹システム</span>
-                            <span class="font-bold text-gray-800">予約: TableCheck / POS: Oracle MICROS（両者連携）</span>
+                            <span class="text-xs font-bold text-gray-400 block mb-1">チェックイン・ボーディング</span>
+                            <span class="font-bold text-gray-800">Google AppSheetで開発着手</span>
                         </li>
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-blue-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">データ連携</span>
-                            <span class="font-bold text-gray-800">Google Sheetsを中間DBとして活用</span>
+                            <span class="text-xs font-bold text-gray-400 block mb-1">船内システム</span>
+                            <span class="font-bold text-gray-800">Oracle MICROSハードウェア構成案</span>
                         </li>
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-blue-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">通信方針</span>
-                            <span class="font-bold text-gray-800">Starlink Mobile Priorityへの変更（航行中接続維持）</span>
-                        </li>
-                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-blue-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">ドック工事 (4月)</span>
-                            <span class="font-bold text-gray-800">アンテナ載せ替え・船内LAN配線工事</span>
+                            <span class="text-xs font-bold text-gray-400 block mb-1">オフライン対応</span>
+                            <span class="font-bold text-gray-800">船内LAN生存ならCAPSで稼働可能</span>
                         </li>
                     </ul>
                 </div>
@@ -270,17 +237,17 @@ graph LR
                         懸念・リスク (Risks)
                     </h3>
                     <ul class="space-y-3">
-                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">コスト・仕様</span>
-                            <span class="font-bold text-gray-800">API連携費用・仕様確認</span>
+                        <li class="bg-white p-3 rounded shadow-sm border-l-4 border-red-500">
+                            <span class="text-xs font-bold text-red-500 block mb-1">連携コスト・仕様</span>
+                            <span class="font-bold text-gray-800">TC⇔MICROS連携：標準で不足あり？<br>スクラッチ開発の要否とコスト</span>
                         </li>
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">通信瞬断</span>
-                            <span class="font-bold text-gray-800">オフライン時の業務継続検証</span>
+                            <span class="text-xs font-bold text-gray-400 block mb-1">現場受容性</span>
+                            <span class="font-bold text-gray-800">キッチンスタッフのKDSへの抵抗感</span>
                         </li>
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-yellow-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">耐久性・運用</span>
-                            <span class="font-bold text-gray-800">塩害対策・現場オペレーション習熟</span>
+                            <span class="text-xs font-bold text-gray-400 block mb-1">デバイス運用</span>
+                            <span class="font-bold text-gray-800">AppSheetとMicrosタブレットの2台持ち回避（Android同居可否）</span>
                         </li>
                     </ul>
                 </div>
@@ -291,20 +258,20 @@ graph LR
                         <span class="bg-gray-500 text-white rounded-full p-1 mr-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </span>
-                        未決定・検討中 (Undecided)
+                        未決定・2/9決定予定 (To Be Decided)
                     </h3>
                     <ul class="space-y-3">
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-gray-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">詳細UI設計</span>
-                            <span class="font-bold text-gray-800">クルー用管理画面（AppSheet等）のUI</span>
+                            <span class="text-xs font-bold text-gray-400 block mb-1">KDS配置</span>
+                            <span class="font-bold text-gray-800">設置場所・枚数・マウント方法</span>
                         </li>
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-gray-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">ハードウェア選定</span>
-                            <span class="font-bold text-gray-800">レシートプリンター機種、決済端末、NW機器</span>
+                            <span class="text-xs font-bold text-gray-400 block mb-1">プリンター</span>
+                            <span class="font-bold text-gray-800">完全ペーパーレス化か、消込用紙が必要か</span>
                         </li>
                         <li class="bg-white p-3 rounded shadow-sm border-l-4 border-gray-400">
-                            <span class="text-xs font-bold text-gray-400 block mb-1">座席マッピング</span>
-                            <span class="font-bold text-gray-800">実際の配置とシステムIDの紐づけ定義</span>
+                            <span class="text-xs font-bold text-gray-400 block mb-1">デシャップ</span>
+                            <span class="font-bold text-gray-800">配膳完了チェックの運用場所</span>
                         </li>
                     </ul>
                 </div>
@@ -330,22 +297,35 @@ graph LR
                         <p class="text-sm font-bold text-gold uppercase tracking-wide mb-4">NOW - MARCH</p>
                         
                         <div class="mb-4">
-                            <!-- High Priority Task -->
-                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-500 mb-4 shadow-sm">
-                                <h4 class="text-xs font-bold text-red-600 uppercase mb-1">【最重要】設計・手配</h4>
+                            <!-- Milestone: Kitchen Meeting -->
+                            <div class="bg-blue-50 p-3 rounded border-l-4 border-blue-600 mb-4 shadow-sm">
+                                <h4 class="text-xs font-bold text-blue-800 uppercase mb-1">【重要】2/9 キッチンMTG</h4>
                                 <ul class="space-y-2 text-sm">
                                     <li class="flex items-start">
-                                        <input type="checkbox" class="mt-1 mr-2 accent-red-600">
-                                        <span class="font-bold text-red-700">インフラ設計の外部委託：<br>専門の弱電業者へ配線図設計を依頼<br><span class="text-xs font-normal text-red-600">(素人判断厳禁)</span></span>
+                                        <input type="checkbox" class="mt-1 mr-2 accent-blue-600">
+                                        <span class="font-bold text-blue-900">KDS/プリンター設置場所・電源/LANルート確定</span>
                                     </li>
                                 </ul>
                             </div>
 
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">その他の手配</h4>
+                            <!-- Critical Task -->
+                            <div class="bg-red-50 p-3 rounded border-l-4 border-red-500 mb-4 shadow-sm">
+                                <h4 class="text-xs font-bold text-red-600 uppercase mb-1">【最重要】連携仕様・設計</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <input type="checkbox" class="mt-1 mr-2 accent-red-600">
+                                        <span class="font-bold text-red-700">TC連携ギャップ分析：<br>「標準連携」vs「要件」の差異明確化</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <input type="checkbox" class="mt-1 mr-2 accent-red-600">
+                                        <span class="font-bold text-red-700">弱電業者へLAN配線図作成依頼</span>
+                                    </li>
+                                </ul>
+                            </div>
+
                             <ul class="space-y-2 text-sm">
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span class="font-bold">Starlinkプラン変更（Roam→Mobile Priority）</span></li>
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>ベンダーAPI連携の費用・仕様問合せ</span></li>
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>GASプロトタイプ実装・検証</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>AppSheetプロトタイプ開発</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>Oracleデモ（キッチン使い勝手検証）</span></li>
                             </ul>
                         </div>
                     </div>
@@ -367,7 +347,7 @@ graph LR
                                 </li>
                                 <li class="flex items-center">
                                     <svg class="w-5 h-5 mr-2 text-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                    <span>船内LAN配線敷設<br>(キッチン・天井裏・デッキ)</span>
+                                    <span>船内LAN配線敷設<br>(2/9決定のキッチン各所含む)</span>
                                 </li>
                                 <li class="flex items-center">
                                     <svg class="w-5 h-5 mr-2 text-gold flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -387,7 +367,7 @@ graph LR
                         <div class="mb-4">
                             <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">実装・テスト</h4>
                             <ul class="space-y-2 text-sm">
-                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>機器設置・設定（AP・タブレット）</span></li>
+                                <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>機器設置・設定（Micros・AppSheetタブ）</span></li>
                                 <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>ソフト実装・連携テスト</span></li>
                                 <li class="flex items-start"><input type="checkbox" class="mt-1 mr-2"><span>スタッフトレーニング</span></li>
                             </ul>
@@ -404,7 +384,8 @@ graph LR
         <div class="container mx-auto px-6 text-center">
             <h3 class="text-2xl font-bold mb-6">Transform the Voyage.</h3>
             <p class="text-lg font-light mb-8 max-w-3xl mx-auto leading-relaxed">
-                4月のドック工事が勝負です。特に<strong class="text-gold">「弱電業者による正確な図面」</strong>なしに工事に入ると取り返しがつきません。<br>早急な手配をお願いします。
+                まずは<strong class="text-gold">「2/9のキッチン担当者との打ち合わせ」</strong>でハードウェアの物理配置を決定してください。<br>
+                並行してTableCheckエンジニアと連携仕様（標準vsカスタム）を詰めることが、次の大きな山場です。
             </p>
             <div class="border-t border-white/20 pt-8 mt-8">
                 <p class="text-sm text-gray-400">© 神戸クルーザーDXプロジェクトチーム</p>
